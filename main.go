@@ -5,6 +5,19 @@ import (
 	"fmt"
 )
 
+/*
+Todo
+create sql db on startup
+check if db already created
+move db location/filepath
+
+create datamodel for timeentry
+add timeentry
+track time
+edit timeentry
+delete timeentry
+*/
+
 func main() {
 	name := flag.String("name", "world", "The name to greet.")
 	flag.Parse()
