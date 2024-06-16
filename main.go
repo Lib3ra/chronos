@@ -56,6 +56,7 @@ const initTable string = `
   );
   CREATE TABLE IF NOT EXISTS timeEntry (
   id INTEGER NOT NULL PRIMARY KEY,
+  dayEntryId INTEGER,
   duration INTEGER,
   key string,
   story_number string,
@@ -191,6 +192,7 @@ func parseTime(timeString []byte) (resTime string, err error) {
 
 	if matchTimeRegex {
 		result = trimmedTimeString
+		// handle format like 4:35 or 15:3 and return error
 		return result, resultError
 	}
 
