@@ -26,6 +26,9 @@ create datamodel for dayentry
 add day entry
 
 Todo
+Move everything db related to different file
+abstract away db operations
+
 edit day entry
 delete day entry
 create datamodel for timeentry
@@ -86,7 +89,7 @@ func main() {
 		fmt.Print(enterDatePrompt)
 		dateEntry, err := buffer.ReadBytes('\n')
 		exitOnErr(err, db)
-		dateResult, err := processDate(dateEntry)
+		dateResult, err := parseDate(dateEntry)
 		exitOnErr(err, db)
 
 		// Read second argument
@@ -94,7 +97,7 @@ func main() {
 		fmt.Print(enterStartTimePrompt)
 		startTimeEntry, err := buffer.ReadBytes('\n')
 		exitOnErr(err, db)
-		startTimeResult, err := processTime(startTimeEntry)
+		startTimeResult, err := parseTime(startTimeEntry)
 		exitOnErr(err, db)
 
 		// Read third argument
@@ -102,7 +105,7 @@ func main() {
 		fmt.Print(enterEndTimePrompt)
 		endTimeEntry, err := buffer.ReadBytes('\n')
 		exitOnErr(err, db)
-		endTimeResult, err := processTime(endTimeEntry)
+		endTimeResult, err := parseTime(endTimeEntry)
 		exitOnErr(err, db)
 		d := dayEntry{
 			dateResult,
@@ -112,18 +115,15 @@ func main() {
 		res, err := db.Exec("INSERT INTO dayEntry VALUES(null,?,?,?)", d.date, d.start, d.end)
 		exitOnErr(err, db)
 		fmt.Println(res)
-		// fmt.Println(d.date)
-		// fmt.Println(d.start)
-		// fmt.Println(d.end)
 	}
 
 	db.Close()
 }
 
-func processDate(date []byte) (resDate time.Time, err error) {
+func parseDate(date []byte) (resDate time.Time, err error) {
 	var result time.Time
 	var resultError error
-	var dateRegex string = "^\\d{4}-\\d{2}-\\d{2}"
+	var dateRegex string = "^\\d{4}-(\\d{2}|\\d{1})-(\\d{2}|\\d{1})"
 	matchDateFormat, err := regexp.Match(dateRegex, date)
 	if err != nil {
 		resultError = err
@@ -179,10 +179,10 @@ func constructDate(year string, month string, day string) (resDate time.Time, er
 	return result, resultError
 }
 
-func processTime(timeString []byte) (resTime string, err error) {
+func parseTime(timeString []byte) (resTime string, err error) {
 	var result string
 	var resultError error
-	var timeRegex string = "^\\d{2}:\\d{2}"
+	var timeRegex string = "^(\\d{2}|\\d{1}):(\\d{2}|\\d{1})"
 	matchTimeRegex, err := regexp.Match(timeRegex, timeString)
 	if err != nil {
 		resultError = err
