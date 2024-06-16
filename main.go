@@ -16,7 +16,7 @@ import (
 )
 
 /*
-Todo
+Done
 create sqlite on startup if not already existing
 check if db already created
 create datamodel for dayentry
@@ -24,6 +24,8 @@ create datamodel for dayentry
 	- start time
 	- end time
 add day entry
+
+Todo
 edit day entry
 delete day entry
 create datamodel for timeentry
@@ -36,6 +38,10 @@ add timeentry
 track time
 edit timeentry
 delete timeentry
+
+visual presentation when editing
+	- navigate with arrowkeys/hjkl
+	- try something like the add dialog
 */
 
 const initTable string = `
