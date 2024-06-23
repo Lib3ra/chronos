@@ -59,7 +59,7 @@ func AddDay() (*model.DayEntry, error) {
 
 func DeleteDay() (*time.Time, error) {
 	buffer := bufio.NewReader(os.Stdin)
-	fmt.Println(enterDatePrompt)
+	fmt.Print(enterDatePrompt)
 	dateEntry, err := buffer.ReadBytes('\n')
 	if err != nil {
 		return nil, err

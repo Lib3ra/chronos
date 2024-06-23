@@ -4,7 +4,6 @@ import (
 	"chronos/model"
 	"database/sql"
 	"log"
-	"os"
 	"time"
 )
 
@@ -18,15 +17,17 @@ const initTable string = `
   CREATE TABLE IF NOT EXISTS timeEntry (
   id INTEGER NOT NULL PRIMARY KEY,
   dayEntryId INTEGER,
-  duration INTEGER,
-  key string,
-  story_number string,
-  comment string
+  duration FLOAT,
+  ticKey string,
+  comment string,
+  FOREIGN KEY (dayEntryId)
+  REFERENCES dayEntry(id)
+  ON DELETE CASCADE
   );
   `
 
 func InitDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "chronos.db")
+	db, err := sql.Open("sqlite3", "chronos.db?_foreign_keys=on")
 	exitOnErr(err, db)
 	_, err = db.Exec(initTable)
 	exitOnErr(err, db)
@@ -89,8 +90,7 @@ func EditDayEntry(db *sql.DB, id int, startTime time.Time, endTime time.Time) {
 
 func exitOnErr(err error, db *sql.DB) {
 	if err != nil {
-		log.Fatal(err)
 		db.Close()
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }

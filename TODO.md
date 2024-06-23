@@ -2,18 +2,8 @@
 
 ## Tasks
 
-- create datamodel for timeentry
-
-  - requires day entry
-  - time hh:mm
-  - tic key
-  - comment
-  - story number optional
-
-- add timeentry
-- track time
-- edit timeentry
-- delete timeentry
+- track time (clock?)
+- dont make tickeys unique find a better way to distinguish time entries
 
 ## CLI UX improvemets
 
