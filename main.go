@@ -9,52 +9,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-/*
-Done
-create sqlite on startup if not already existing
-check if db already created
-Move everything db related to different file
-abstract away db operations
-create datamodel for dayentry
-  - date
-  - start time
-  - end time
-
-add day entry
-delete day entry
-edit day entry
-list day entries
-
-Todo
-create datamodel for timeentry
-  - requires day entry
-  - time hh:mm
-  - tic key
-  - comment
-  - story number optional
-
-add timeentry
-track time
-edit timeentry
-delete timeentry
-
-design better control flow
-  - dont make user restart from scratch
-  - handle errors without necessarily crashing
-
-introduce a logging framework
-
-make -listDays not scuffed
-visual presentation when editing
-  - navigate with arrowkeys/hjkl
-  - try something like the add dialog
-*/
 const dateFormat string = "2006-01-02"
 
 func main() {
-	// DB Conection code
 	db := repository.InitDB()
-	// FLAG CODE
+
 	addDayFlag := flag.Bool("addDay", false, "Add a day entry")
 	deleteDayFlag := flag.Bool("deleteDay", false, "Delete a day entry")
 	editDayFlag := flag.Bool("editDay", false, "Edit the start and end time of a day entry")
